@@ -1,0 +1,73 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <windows.h>
+
+using namespace std;
+
+const int m = 5, n = 5;
+
+int main()
+{
+    setlocale(LC_ALL, "ukr");
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+
+    string line;
+    int a = (m + 1);
+
+    double mtrx[n][m];// створення двовимірного масиву
+    double max = mtrx[NULL][NULL]; // задання змінній значення перших рядків і стовпців двовимірного масиву
+
+    ifstream file; // зчитуємо файл
+    file.open("Matrix.txt"); // відкриваємо файл
+    if (!file.is_open()) // перевірка чи відкиється файл
+    {
+        cout << "Error";
+    }
+    else
+    {
+        cout << "Matrix: \n\n";
+        for (int i = 0; i < m; i++) // вбудований цикл для запису даних в динамічний масив
+        {
+            for (int j = 0; j < n; j++)
+            {
+                file >> mtrx[i][j];
+            }
+        }
+    }
+    file.close();
+
+    ifstream file2("Matrix.txt");// відкриваємо файл
+    while (getline(file2, line)) // функція зчитування рядка
+    {
+        cout << line << endl;
+    }
+    file2.close();
+
+    for (int i = 0; i < m; i++) // вбудований цикл для перевірки нульових елементів в стовпцях
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (mtrx[i][j] == 0) // перевірка чи є елемент, що дорівнює нулю
+            {
+                if (j < a)
+                {
+                    a = j;
+                }
+            }
+        }
+    }
+
+    if (a < (m + 1)) //перевірка умови 
+    {
+        cout << "Number of the frist column that have null element: " << a + 1 << endl;
+    }
+    else
+    {
+        cout << "error";
+    }
+
+    system("pause");
+    return 0;
+}
