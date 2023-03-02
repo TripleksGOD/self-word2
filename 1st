@@ -1,0 +1,59 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <windows.h>
+#include <vector>
+
+using namespace std;
+
+const int m = 5, n = 5;
+
+int main()
+{
+    setlocale(LC_ALL, "ukr");
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    
+    string line;
+    double mtrx[n][m];// створення двовимірного масиву
+    double max = mtrx[NULL][NULL]; // задання змінній значення перших рядків двовимірного масиву
+
+    ifstream file; // зчитуємо файл
+    file.open("Matrix.txt"); // відкриваємо файл
+    if (!file.is_open()) // перевірка чи відкиється файл
+    {
+        cout << "Error";
+    }
+    else
+    {
+        cout << "Matrix: \n\n";
+        for (int i = 0; i < m; i++) // вбудований цикл для запису даних в динамічний масив
+        {
+            for (int j = 0; j < n; j++)
+            {
+                file >> mtrx[i][j];;
+            }
+        }
+    }
+    file.close();
+
+    ifstream file2("Matrix.txt");// відкриваємо файл
+    while (getline(file2, line)) // функція зчитування рядка
+    {
+        cout << line << endl;
+    }
+    file2.close();
+
+    for (int i = 1; i < n; i++) // цикл для перевірки максимального елементу матриці головної діагоналі
+    {
+        if (mtrx[i][i] > max) // умова перевірки головної діагоналі матриці на максимальний елемент 
+        {
+            max = mtrx[i][i];
+        }
+    }
+    
+    cout << "\nMaximum element of main diagonal: " << max << endl; // виведення максимального елементу головної діагоналі
+    
+    system("pause");
+    return 0;
+}
