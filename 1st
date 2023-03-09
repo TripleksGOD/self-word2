@@ -1,86 +1,59 @@
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <windows.h>
+#include <vector>
+
 using namespace std;
 
-class Info
-{
-private:
-    string surname;
-    string group;
-    string account;
-    string account_type;
-public:
-
-    Info()// створення конструктора
-    {
-        cout << "\n\t||Constructor created\n";
-    }
-    
-    Info(string info_surname, string info_group, string info_account, string info_account_type)//конструктор з заданими параметрами
-    {
-        surname = info_surname;
-        group = info_group;
-        account = info_account;
-        account_type = info_account_type;
-    }
-
-    ~Info()//деструктор
-    {
-        cout << "\n\t||Destructor worked\n";
-    }
-
-    void Message()
-    {
-        cout << "\n\t||Local network users\n";
-    }
-
-    void setInfo(string info_surname, string info_group, string info_account, string info_account_type)
-    {
-        surname = info_surname;
-        group = info_group;
-        account = info_account;
-        account_type = info_account_type;
-    }
-
-    void getInfo()
-    {
-        cout << "\n\t||Infomation: \n";
-        cout << "\t||Surname: " << surname << endl;
-        cout << "\t||Group: " << group << endl;
-        cout << "\t||Account: " << account << endl;;
-        cout << "\t||Account type: " << account_type << endl;
-    }
-};
+const int m = 5, n = 5;
 
 int main()
 {
-    bool exit = false;
-    while (!exit)
+    setlocale(LC_ALL, "ukr");
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    
+    string line;
+    double mtrx[n][m];// створення двовимірного масиву
+    double max = mtrx[NULL][NULL]; // задання змінній значення перших рядків двовимірного масиву
+
+    ifstream file; // зчитуємо файл
+    file.open("Matrix.txt"); // відкриваємо файл
+    if (!file.is_open()) // перевірка чи відкиється файл
     {
-        string surname, group, account, account_type;
-        cout << "\n\t||Enter information about user: surname, group, account, account type\n\n";
-
-        cout << "\t||Surname: ";
-        cin >> surname;
-
-        cout << "\t||Group: ";
-        cin >> group;
-
-        cout << "\t||Account: ";
-        cin >> account;
-
-        cout << "\t||Account type: ";
-        cin >> account_type;
-
-        Info m(surname, group, account, account_type);
-        m.Message();
-        m.setInfo(surname, group, account, account_type);
-        m.getInfo();
-
-        cout << "\n\t||If you want enter to about one more user press 0, if not press 1" << endl << "\t";
-        cin >> exit;
+        cout << "Error";
     }
+    else
+    {
+        cout << "Matrix: \n\n";
+        for (int i = 0; i < m; i++) // вбудований цикл для запису даних в динамічний масив
+        {
+            for (int j = 0; j < n; j++)
+            {
+                file >> mtrx[i][j];;
+            }
+        }
+    }
+    file.close();
 
-    cout << endl;
+    ifstream file2("Matrix.txt");// відкриваємо файл
+    while (getline(file2, line)) // функція зчитування рядка
+    {
+        cout << line << endl;
+    }
+    file2.close();
+
+    for (int i = 1; i < n; i++) // цикл для перевірки максимального елементу матриці головної діагоналі
+    {
+        if (mtrx[i][i] > max) // умова перевірки головної діагоналі матриці на максимальний елемент 
+        {
+            max = mtrx[i][i];
+        }
+    }
+    
+    cout << "\nMaximum element of main diagonal: " << max << endl; // виведення максимального елементу головної діагоналі
+    
     system("pause");
     return 0;
 }
